@@ -13,5 +13,20 @@ namespace movies
         {
             InitializeComponent();
         }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            await movieViewModel.LoadMovies();
+        }
+
+        async void Handle_ItemAppearing(object sender, Xamarin.Forms.ItemVisibilityEventArgs e)
+        {
+            if( e.Item.Equals(movieViewModel.Movies.ElementAt(movieViewModel.Movies.Count - 3)) )
+            {
+                await movieViewModel.LoadMore();
+            }
+        }
     }
 }
