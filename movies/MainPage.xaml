@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:movies" 
+             xmlns:viewModels="clr-namespace:movies.ViewModels;assembly=movies.ViewModels"
+             x:Class="movies.MainPage"
+             Title="Filmes">
+    
+    <ContentPage.BindingContext>
+        <viewModels:UpcomingMoviesViewModel x:Name="movieViewModel" />
+    </ContentPage.BindingContext>
+
+    <StackLayout HorizontalOptions="StartAndExpand"
+                 VerticalOptions="StartAndExpand">
+        <ListView x:Name="moviesList" ItemsSource="{Binding Movies}"
+                  CachingStrategy="RecycleElement"
+                  HasUnevenRows="true"
+                  ItemAppearing="Handle_ItemAppearing"
+                  Footer="{Binding .}"
+                  SeparatorVisibility="None"
+                  SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <local:MovieView />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+            <ListView.FooterTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <ActivityIndicator 
+                            HeightRequest="23"
+                            IsEnabled="{Binding IsLoading}"
+                            IsRunning="{Binding IsLoading}"
+                            IsVisible="{Binding IsLoading}" />
+                    </StackLayout>
+                </DataTemplate>
+            </ListView.FooterTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
